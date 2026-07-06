@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GRS - WEBSITE</title>
+
+    <!-- Google Fonts (Font Cantik) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: #0a0000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(25, 8, 8, 0.92);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 48px 42px;
+            border: 1px solid rgba(255, 60, 60, 0.20);
+            box-shadow: 0 0 80px rgba(200, 20, 20, 0.08),
+                        0 0 150px rgba(200, 20, 20, 0.03),
+                        inset 0 0 80px rgba(200, 20, 20, 0.02);
+            transition: all 0.5s ease;
+        }
+
+        .container:hover {
+            border-color: rgba(255, 60, 60, 0.40);
+            box-shadow: 0 0 100px rgba(200, 20, 20, 0.15),
+                        0 0 200px rgba(200, 20, 20, 0.05);
+            transform: translateY(-3px);
+        }
+
+        /* ============================================
+           HEADER - WELCOME TO GRS
+           ============================================ */
+        .header {
+            text-align: center;
+            padding-bottom: 32px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid rgba(255, 50, 50, 0.08);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff3333, transparent);
+        }
+
+        .header .welcome {
+            font-size: 12px;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            color: rgba(255, 50, 50, 0.30);
+            margin-bottom: 2px;
+            font-weight: 300;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .header h1 {
+            font-size: 64px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff4444, #ff1a1a, #cc0000, #ff1a1a, #ff4444);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px rgba(200, 20, 20, 0.20);
+            letter-spacing: 6px;
+            animation: shimmer 5s ease-in-out infinite;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header .sub {
+            color: rgba(255, 50, 50, 0.20);
+            font-size: 12px;
+            letter-spacing: 6px;
+            margin-top: 8px;
+            font-weight: 300;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ============================================
+           HOME PAGE
+           ============================================ */
+        .home-content {
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .home-content .tagline {
+            font-size: 16px;
+            color: rgba(255, 80, 80, 0.25);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-weight: 300;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .home-content .tagline span {
+            color: rgb(255,255,255);
+        }
+
+        .home-content .desc {
+            font-size: 15px;
+            color: rgb(255,255,255);
+            line-height: 1.8;
+            max-width: 400px;
+            margin: 0 auto 32px auto;
+            font-weight: 300;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* ============================================
+           BUTTON DAFTAR
+           ============================================ */
+        .btn-daftar {
+            display: inline-block;
+            padding: 18px 55px;
+            background: linear-gradient(135deg, rgba(255, 40, 40, 0.15), rgba(200, 10, 10, 0.08));
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.25);
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.4s ease;
+            letter-spacing: 2px;
+            text-decoration: none;
+            box-shadow: 0 0 40px rgba(200, 20, 20, 0.05);
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-daftar::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff3333, transparent, #ff3333, transparent);
+            background-size: 400% 400%;
+            border-radius: 60px;
+            z-index: -1;
+            opacity: 0;
+            transition: 0.5s ease;
+        }
+
+        .btn-daftar:hover::before {
+            opacity: 0.3;
+            animation: borderGlow 3s ease infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-daftar:hover {
+            background: rgba(255, 40, 40, 0.22);
+            border-color: rgba(255, 50, 50, 0.45);
+            box-shadow: 0 0 80px rgba(200, 20, 20, 0.12), 0 0 150px rgba(200, 20, 20, 0.04);
+            transform: scale(1.04) translateY(-2px);
+        }
+
+        .btn-daftar:active {
+            transform: scale(0.96);
+        }
+
+        /* ============================================
+           FORM
+           ============================================ */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            margin-top: 5px;
+        }
+
+        .form-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-section .back-link {
+            display: inline-block;
+            color: rgba(255, 50, 50, 0.30);
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 22px;
+            transition: 0.3s ease;
+            letter-spacing: 1px;
+            font-weight: 400;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .form-section .back-link:hover {
+            color: rgba(255, 50, 50, 0.60);
+            transform: translateX(-4px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: rgba(255, 80, 80, 0.40);
+            margin-bottom: 6px;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 30, 30, 0.08);
+            border-radius: 16px;
+            font-size: 16px;
+            transition: 0.35s ease;
+            background: rgba(255, 255, 255, 0.02);
+            color: #ffcccc;
+            outline: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+        }
+
+        input:focus {
+            border-color: rgba(255, 40, 40, 0.30);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 40px rgba(200, 20, 20, 0.06), inset 0 0 40px rgba(200, 20, 20, 0.02);
+            transform: scale(1.01);
+        }
+
+        input::placeholder {
+            color: rgba(255, 80, 80, 0.10);
+            font-weight: 300;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 40, 40, 0.14), rgba(200, 10, 10, 0.08));
+            color: #ff6666;
+            border: 1px solid rgba(255, 40, 40, 0.18);
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.4s ease;
+            margin-top: 6px;
+            letter-spacing: 1.5px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        button[type="submit"]:hover {
+            background: rgba(255, 40, 40, 0.22);
+            border-color: rgba(255, 40, 40, 0.35);
+            box-shadow: 0 0 60px rgba(200, 20, 20, 0.08);
+            transform: scale(1.01);
+        }
+
+        button[type="submit"]:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================
+           STATUS MESSAGE
+           ============================================ */
+        #statusMessage {
+            margin-top: 18px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        #statusMessage.success {
+            display: block;
+            background: rgba(50, 200, 100, 0.06);
+            color: rgba(50, 200, 100, 0.6);
+            border: 1px solid rgba(50, 200, 100, 0.08);
+        }
+
+        #statusMessage.error {
+            display: block;
+            background: rgba(255, 30, 30, 0.06);
+            color: rgba(255, 60, 60, 0.6);
+            border: 1px solid rgba(255, 30, 30, 0.08);
+        }
+
+        #statusMessage.loading {
+            display: block;
+            background: rgba(255, 30, 30, 0.06);
+            color: rgba(255, 50, 50, 0.5);
+            border: 1px solid rgba(255, 30, 30, 0.08);
+        }
+
+        /* ============================================
+           DETAIL BOX
+           ============================================ */
+        .detail-box {
+            background: rgba(255, 255, 255, 0.015);
+            border-radius: 16px;
+            padding: 20px 24px;
+            border-left: 3px solid rgba(255, 40, 40, 0.15);
+            margin-top: 24px;
+            transition: 0.3s ease;
+        }
+
+        .detail-box:hover {
+            border-left-color: rgba(255, 40, 40, 0.30);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .detail-box h4 {
+            color: rgba(255, 80, 80, 0.30);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .detail-box .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255, 30, 30, 0.03);
+        }
+
+        .detail-box .row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-box .label {
+            color: rgba(255, 80, 80, 0.20);
+            font-size: 14px;
+            font-weight: 400;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .detail-box .value {
+            color: rgba(255, 80, 80, 0.55);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .detail-box .empty {
+            color: rgba(255, 80, 80, 0.10);
+            font-style: italic;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 300;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .btn-clear {
+            margin-top: 14px;
+            padding: 10px 24px;
+            background: rgba(255, 30, 30, 0.04);
+            border: 1px solid rgba(255, 30, 30, 0.06);
+            border-radius: 40px;
+            color: rgba(255, 60, 60, 0.30);
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            letter-spacing: 1px;
+            font-weight: 500;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .btn-clear:hover {
+            background: rgba(255, 30, 30, 0.08);
+            border-color: rgba(255, 30, 30, 0.12);
+            color: rgba(255, 60, 60, 0.50);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 500px) {
+            .container { padding: 28px 18px; }
+            .header h1 { font-size: 40px; letter-spacing: 3px; }
+            .header .welcome { font-size: 10px; letter-spacing: 6px; }
+            .btn-daftar { padding: 14px 30px; font-size: 15px; }
+            input { padding: 13px 16px; font-size: 15px; }
+            button[type="submit"] { font-size: 15px; padding: 14px; }
+            .home-content .desc { font-size: 14px; }
+            .detail-box { padding: 16px 18px; }
+        }
+
+        @media (max-width: 400px) {
+            .container { padding: 20px 14px; }
+            .header h1 { font-size: 32px; }
+            .btn-daftar { padding: 12px 24px; font-size: 13px; letter-spacing: 1px; }
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ==========================================
+    HEADER: WELCOME TO GRS
+    ========================================== -->
+    <div class="header">
+        <div class="welcome">Welcome To</div>
+        <h1>GRS</h1>
+        <div class="sub"> GRS &amp; registration ✦/div>
+    </div>
+
+    <!-- ==========================================
+    HOME PAGE
+    ========================================== -->
+    <div class="home-content" id="homeContent">
+        <div class="tagline"><span></span> </div>
+        <div class="desc">
+            <br />
+            
+        </div>
+
+        <button class="btn-daftar" id="btnDaftar">📝 Daftar Sekarang</button>
+
+        <!-- ==========================================
+        DETAIL BOX (PAPAR DATA TERDAFTAR)
+        ========================================== -->
+        <div class="detail-box" id="detailBox">
+            <h4>📊 DATA TERDAFTAR</h4>
+            <div id="detailContent">
+                <div class="empty">❌ Tiada data. Daftar dulu!</div>
+            </div>
+            <button class="btn-clear" id="clearDataBtn">🗑️ Kosongkan Data</button>
+        </div>
+    </div>
+
+    <!-- ==========================================
+    FORM SECTION (HIDDEN BY DEFAULT)
+    ========================================== -->
+    <div class="form-section" id="formSection">
+
+        <span class="back-link" id="backHome">← Kembali ke Home</span>
+
+        <form id="daftarForm">
+            <div class="form-group">
+                <label for="nama">👤 Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Masukkan nama kamu" required />
+            </div>
+
+            <div class="form-group">
+                <label for="umur">🎂 Umur</label>
+                <input type="number" id="umur" placeholder="Masukkan umur kamu" required />
+            </div>
+
+            <div class="form-group">
+                <label for="nomor">📱 Nomor Telefon</label>
+                <input type="tel" id="nomor" placeholder="Contoh: 601164588856" required />
+            </div>
+
+            <button type="submit" id="submitBtn">📤 Kirim ke WhatsApp</button>
+        </form>
+
+        <div id="statusMessage"></div>
+    </div>
+
+</div>
+
+<!-- ============================================
+JAVASCRIPT
+============================================ -->
+<script>
+    // ============================================
+    // TARGET NOMOR WHATSAPP - DAH SET!
+    // ============================================
+    const TARGET_NOMOR = '601164588856';
+
+    // ============================================
+    // ELEMEN
+    // ============================================
+    const homeContent = document.getElementById('homeContent');
+    const formSection = document.getElementById('formSection');
+    const btnDaftar = document.getElementById('btnDaftar');
+    const backHome = document.getElementById('backHome');
+
+    const form = document.getElementById('daftarForm');
+    const namaInput = document.getElementById('nama');
+    const umurInput = document.getElementById('umur');
+    const nomorInput = document.getElementById('nomor');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMsg = document.getElementById('statusMessage');
+    const detailContent = document.getElementById('detailContent');
+    const clearBtn = document.getElementById('clearDataBtn');
+
+    // ============================================
+    // TOGGLE HOME / FORM
+    // ============================================
+    function showHome() {
+        homeContent.style.display = 'block';
+        formSection.classList.remove('show');
+        formSection.style.display = 'none';
+    }
+
+    function showForm() {
+        homeContent.style.display = 'none';
+        formSection.style.display = 'block';
+        setTimeout(() => formSection.classList.add('show'), 50);
+    }
+
+    btnDaftar.addEventListener('click', showForm);
+    backHome.addEventListener('click', showHome);
+
+    // ============================================
+    // SIMPAN & LOAD DATA DARI LOCALSTORAGE
+    // ============================================
+    function saveData(data) {
+        localStorage.setItem('grsPlayerData', JSON.stringify(data));
+    }
+
+    function loadData() {
+        const raw = localStorage.getItem('grsPlayerData');
+        if (raw) {
+            try { return JSON.parse(raw); } catch (e) { return null; }
+        }
+        return null;
+    }
+
+    // ============================================
+    // RENDER DETAIL
+    // ============================================
+    function renderDetail() {
+        const data = loadData();
+        if (!data || !data.nama) {
+            detailContent.innerHTML = `<div class="empty">❌ Tiada data. Daftar dulu!</div>`;
+            return;
+        }
+        detailContent.innerHTML = `
+            <div class="row">
+                <span class="label">👤 Nama</span>
+                <span class="value">${data.nama}</span>
+            </div>
+            <div class="row">
+                <span class="label">🎂 Umur</span>
+                <span class="value">${data.umur} tahun</span>
+            </div>
+            <div class="row">
+                <span class="label">📱 Nomor</span>
+                <span class="value">${data.nomor}</span>
+            </div>
+            <div class="row">
+                <span class="label">📅 Daftar</span>
+                <span class="value">${data.tarikh || '—'}</span>
+            </div>
+        `;
+    }
+
+    // ============================================
+    // SHOW STATUS
+    // ============================================
+    function showStatus(msg, type = 'success') {
+        statusMsg.textContent = msg;
+        statusMsg.className = type;
+    }
+    function hideStatus() {
+        statusMsg.className = '';
+        statusMsg.textContent = '';
+    }
+
+    // ============================================
+    // VALIDASI
+    // ============================================
+    function validateForm() {
+        const nama = namaInput.value.trim();
+        const umur = umurInput.value.trim();
+        const nomor = nomorInput.value.trim();
+
+        if (!nama) { showStatus('❌ Nama tidak boleh kosong!', 'error'); return false; }
+        if (!umur || isNaN(umur) || parseInt(umur) < 1 || parseInt(umur) > 120) {
+            showStatus('❌ Masukkan umur yang valid (1-120)!', 'error');
+            return false;
+        }
+        if (!nomor || nomor.length < 8) {
+            showStatus('❌ Masukkan nomor telefon yang valid!', 'error');
+            return false;
+        }
+        return true;
+    }
+
+    // ============================================
+    // SEND TO WHATSAPP - FIXED!
+    // ============================================
+    function sendToWhatsApp(nama, umur, nomor) {
+        let target = TARGET_NOMOR;
+        if (!target.startsWith('+')) {
+            target = '+' + target;
+        }
+
+        const msg =
+            `📋 *Daftar Player Baru*\n\n` +
+            `👤 Nama: ${nama}\n` +
+            `🎂 Umur: ${umur}\n` +
+            `📱 Nomor: ${nomor}\n\n` +
+            `✅ Pendaftaran berhasil!`;
+
+        const waUrl = `https://api.whatsapp.com/send?phone=${target}&text=${encodeURIComponent(msg)}`;
+        
+        const newWindow = window.open(waUrl, '_blank');
+        
+        if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+            alert('⚠️ Sila benarkan pop-up untuk buka WhatsApp.\nAtau klik link ini: ' + waUrl);
+            return false;
+        }
+        
+        return true;
+    }
+
+    // ============================================
+    // EVENT SUBMIT
+    // ============================================
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        hideStatus();
+        if (!validateForm()) return;
+
+        const nama = namaInput.value.trim();
+        const umur = umurInput.value.trim();
+        const nomor = nomorInput.value.trim();
+
+        saveData({
+            nama, umur, nomor,
+            tarikh: new Date().toLocaleDateString('id-ID', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            })
+        });
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '⏳ Mengirim...';
+        showStatus('⏳ Sedang mengarahkan ke WhatsApp...', 'loading');
+
+        try {
+            const success = sendToWhatsApp(nama, umur, nomor);
+            if (success) {
+                showStatus('✅ Berhasil! Sila lengkapkan di WhatsApp.', 'success');
+                renderDetail();
+                setTimeout(() => {
+                    form.reset();
+                    hideStatus();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '📤 Kirim ke WhatsApp';
+                    showHome();
+                }, 3000);
+            }
+        } catch (error) {
+            showStatus('❌ Terjadi ralat. Sila cuba lagi.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '📤 Kirim ke WhatsApp';
+        }
+    });
+
+    // ============================================
+    // KOSONGKAN DATA
+    // ============================================
+    clearBtn.addEventListener('click', function() {
+        if (confirm('Yakin nak kosongkan semua data?')) {
+            localStorage.removeItem('grsPlayerData');
+            renderDetail();
+            showStatus('✅ Data berjaya dikosongkan!', 'success');
+            setTimeout(hideStatus, 2000);
+        }
+    });
+
+    // ============================================
+    // AUTO FORMAT NOMOR
+    // ============================================
+    nomorInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9+]/g, '');
+    });
+
+    // ============================================
+    // BERSIHKAN STATUS SEMASA MENAIP
+    // ============================================
+    [namaInput, umurInput, nomorInput].forEach(input => {
+        input.addEventListener('input', function() {
+            if (statusMsg.className !== '') hideStatus();
+        });
+    });
+
+    // ============================================
+    // RENDER DETAIL AWAL
+    // ============================================
+    renderDetail();
+
+    console.log('✅ GRS Portfolio siap! 🚀');
+    console.log('📱 Target WhatsApp: ' + TARGET_NOMOR);
+</script>
+
+</body>
+</html>
