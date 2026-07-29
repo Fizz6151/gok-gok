@@ -1,750 +1,1679 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>GRS - WEBSITE</title>
-
-    <!-- Google Fonts (Font Cantik) -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRIM REAPERS MY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ============================================
-           RESET & BASE
-           ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Rajdhani', 'Space Grotesk', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0000;
+            font-family: 'Poppins', sans-serif;
+            background: #0a0303;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 20px;
-            color: #e0e0e0;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* ============================================
-           MAIN CONTAINER
-           ============================================ */
-        .container {
+        /* ===== BACKGROUND PARTICLES ===== */
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 650px;
-            background: rgba(25, 8, 8, 0.92);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 48px 42px;
-            border: 1px solid rgba(255, 60, 60, 0.20);
-            box-shadow: 0 0 80px rgba(200, 20, 20, 0.08),
-                        0 0 150px rgba(200, 20, 20, 0.03),
-                        inset 0 0 80px rgba(200, 20, 20, 0.02);
-            transition: all 0.5s ease;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #bgOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(10,3,3,0.85) 0%, rgba(10,3,3,0.95) 100%),
+                radial-gradient(ellipse at 80% 50%, rgba(10,3,3,0.85) 0%, rgba(10,3,3,0.95) 100%);
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .container:hover {
-            border-color: rgba(255, 60, 60, 0.40);
-            box-shadow: 0 0 100px rgba(200, 20, 20, 0.15),
-                        0 0 200px rgba(200, 20, 20, 0.05);
-            transform: translateY(-3px);
+        /* Floating Particles CSS */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .float-particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatAround linear infinite;
+            opacity: 0.3;
+        }
+        @keyframes floatAround {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.5);
+                opacity: 0;
+            }
         }
 
-        /* ============================================
-           HEADER - WELCOME TO GRS
-           ============================================ */
-        .header {
-            text-align: center;
-            padding-bottom: 32px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid rgba(255, 50, 50, 0.08);
+        /* Loading */
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #0a0303;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loading-screen.hide { opacity: 0; visibility: hidden; }
+        .loading-screen .loader {
+            width: 80px;
+            height: 80px;
             position: relative;
         }
+        .loading-screen .loader .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #ff0000;
+            animation: spin 1s linear infinite;
+        }
+        .loading-screen .loader .ring:nth-child(2) {
+            width: 60px; height: 60px;
+            top: 10px; left: 10px;
+            border-top-color: #cc0000;
+            animation-duration: 1.5s;
+        }
+        .loading-screen .loader .ring:nth-child(3) {
+            width: 40px; height: 40px;
+            top: 20px; left: 20px;
+            border-top-color: #ff4444;
+            animation-duration: 2s;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-screen .loader-text {
+            margin-top: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: #ff0000;
+            letter-spacing: 4px;
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+        .loading-screen .loader-text .dot {
+            animation: dotAnim 1.5s ease-in-out infinite;
+        }
+        .loading-screen .loader-text .dot:nth-child(2) { animation-delay: 0.3s; }
+        .loading-screen .loader-text .dot:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        @keyframes dotAnim {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .loading-screen .progress-bar {
+            width: 200px;
+            height: 3px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .loading-screen .progress-bar .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #cc0000, #ff0000);
+            border-radius: 10px;
+            animation: progressAnim 2s ease-in-out forwards;
+        }
+        @keyframes progressAnim {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
 
-        .header::after {
+        /* Main Card */
+        .main-card {
+            max-width: 560px;
+            width: 100%;
+            background: linear-gradient(160deg, rgba(20,6,6,0.92), rgba(10,3,3,0.96));
+            border: 1px solid rgba(204,0,0,0.15);
+            border-radius: 32px;
+            padding: 30px 25px 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 80px rgba(204,0,0,0.05), inset 0 1px 0 rgba(204,0,0,0.08);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease 2s both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 100px rgba(204,0,0,0.08);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .main-card::before {
             content: '';
             position: absolute;
-            bottom: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
+            inset: -2px;
+            border-radius: 34px;
+            background: linear-gradient(135deg, rgba(204,0,0,0.2), transparent 40%, rgba(204,0,0,0.1));
+            z-index: -1;
+            filter: blur(8px);
+        }
+        .main-card::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20%;
+            right: 20%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #ff3333, transparent);
+            background: linear-gradient(90deg, transparent, rgba(204,0,0,0.4), transparent);
+            border-radius: 50%;
+            filter: blur(2px);
         }
 
-        .header .welcome {
-            font-size: 12px;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            color: rgba(255, 50, 50, 0.30);
-            margin-bottom: 2px;
-            font-weight: 300;
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(204,0,0,0.08);
+            margin-bottom: 18px;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        .header .logo .icon {
+            font-size: 45px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(204,0,0,0.2));
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+        .header .logo .name {
             font-family: 'Orbitron', sans-serif;
-        }
-
-        .header h1 {
-            font-size: 64px;
+            font-size: 20px;
             font-weight: 900;
-            background: linear-gradient(135deg, #ff4444, #ff1a1a, #cc0000, #ff1a1a, #ff4444);
-            background-size: 300% 300%;
+            background: linear-gradient(135deg, #ff2222, #cc0000, #ff4444);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 60px rgba(200, 20, 20, 0.20);
-            letter-spacing: 6px;
-            animation: shimmer 5s ease-in-out infinite;
-            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            line-height: 1.2;
         }
-
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .header .logo .name .sub {
+            display: block;
+            font-size: 9px;
+            font-weight: 400;
+            -webkit-text-fill-color: #888;
+            letter-spacing: 4px;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .header .sub {
-            color: rgba(255, 50, 50, 0.20);
-            font-size: 12px;
-            letter-spacing: 6px;
-            margin-top: 8px;
-            font-weight: 300;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* ============================================
-           HOME PAGE
-           ============================================ */
-        .home-content {
-            text-align: center;
-            padding: 5px 0;
-        }
-
-        .home-content .tagline {
-            font-size: 16px;
-            color: rgba(255, 80, 80, 0.25);
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            font-weight: 300;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .home-content .tagline span {
-            color: rgb(255,255,255);
-        }
-
-        .home-content .desc {
-            font-size: 15px;
-            color: rgb(255,255,255);
-            line-height: 1.8;
-            max-width: 400px;
-            margin: 0 auto 32px auto;
-            font-weight: 300;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        /* ============================================
-           BUTTON DAFTAR
-           ============================================ */
-        .btn-daftar {
+        .header .tagline {
             display: inline-block;
-            padding: 18px 55px;
-            background: linear-gradient(135deg, rgba(255, 40, 40, 0.15), rgba(200, 10, 10, 0.08));
-            color: #ff6666;
-            border: 1px solid rgba(255, 50, 50, 0.25);
-            border-radius: 60px;
-            font-size: 17px;
+            background: rgba(204,0,0,0.08);
+            border: 1px solid rgba(204,0,0,0.1);
+            padding: 4px 18px;
+            border-radius: 30px;
+            color: #ff4444;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-top: 6px;
+            box-shadow: 0 0 20px rgba(204,0,0,0.05);
+            min-height: 30px;
+        }
+        .header .tagline i { margin-right: 4px; }
+        .header .tagline .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 12px;
+            background: #ff0000;
+            margin-left: 2px;
+            animation: blink 0.8s step-end infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Clan Banner */
+        .clan-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(204,0,0,0.05);
+            border: 1px solid rgba(204,0,0,0.08);
+            border-radius: 14px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .clan-banner .status-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .clan-banner .status-left .pulse-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff0000;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 20px rgba(255,0,0,0.4);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.6; }
+        }
+        .clan-banner .status-left .status-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ff4444;
+        }
+        .clan-banner .status-left .status-text span { color: #fff; }
+        .clan-banner .status-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #888;
+        }
+        .clan-banner .status-right .online-count {
+            color: #00ff64;
+            font-weight: 700;
+        }
+        .clan-banner .status-right .total-count {
+            color: #ff0000;
+            font-weight: 700;
+        }
+
+        /* Rules Status */
+        .rules-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px;
+            background: rgba(204,0,0,0.04);
+            border: 1px solid rgba(204,0,0,0.06);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .rules-status .rules-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #aaa;
+        }
+        .rules-status .rules-info i { color: #cc0000; }
+        .rules-status .rules-info .status-badge {
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .rules-status .rules-info .status-badge.agreed {
+            background: rgba(0,255,100,0.1);
+            color: #00ff64;
+            box-shadow: 0 0 15px rgba(0,255,100,0.05);
+        }
+        .rules-status .rules-info .status-badge.pending {
+            background: rgba(255,193,7,0.1);
+            color: #ffc107;
+        }
+        .btn-view-rules {
+            padding: 4px 14px;
+            background: rgba(204,0,0,0.08);
+            border: 1px solid rgba(204,0,0,0.1);
+            border-radius: 8px;
+            color: #ff4444;
+            font-family: 'Poppins', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-view-rules:hover {
+            background: rgba(204,0,0,0.15);
+            border-color: rgba(204,0,0,0.2);
+            box-shadow: 0 0 20px rgba(204,0,0,0.05);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(204,0,0,0.06);
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .stat-box:hover {
+            border-color: rgba(204,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            background: rgba(204,0,0,0.03);
+        }
+        .stat-box .num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff0000;
+            display: block;
+        }
+        .stat-box .lbl {
+            font-size: 10px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .feature-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 12px 4px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .feature-box:hover {
+            border-color: rgba(204,0,0,0.1);
+            transform: translateY(-3px);
+            background: rgba(204,0,0,0.03);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .feature-box i {
+            font-size: 18px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .feature-box h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #ddd;
+        }
+        .feature-box p {
+            font-size: 7px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        /* ===== SHARE SECTION - HANYA DISCORD ===== */
+        .share-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .share-btn.discord {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.4s ease;
-            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #fff;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
             text-decoration: none;
-            box-shadow: 0 0 40px rgba(200, 20, 20, 0.05);
-            font-family: 'Rajdhani', sans-serif;
+        }
+        .share-btn.discord i { font-size: 22px; }
+        .share-btn.discord:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 35px rgba(88, 101, 242, 0.3);
+            background: linear-gradient(135deg, #6B77F5, #5865F2);
+        }
+        .share-btn.discord:active {
+            transform: translateY(0);
+        }
+
+        /* Form */
+        .form-section .form-title {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .form-section .form-title .badge {
+            display: inline-block;
+            background: rgba(204,0,0,0.08);
+            color: #ff4444;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid rgba(204,0,0,0.06);
+        }
+        .form-section .form-title h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+        .form-section .form-title h3 span {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .form-section .form-title p {
+            color: #666;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            color: #999;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+        }
+        .form-group label i {
+            margin-right: 4px;
+            color: #cc0000;
+        }
+        .form-group .input-group {
+            position: relative;
+        }
+        .form-group .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 13px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none;
+        }
+        .form-group select {
+            padding-right: 38px;
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: #1a0808;
+            color: #fff;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: rgba(204,0,0,0.25);
+            background: rgba(204,0,0,0.04);
+            box-shadow: 0 0 30px rgba(204,0,0,0.04);
+        }
+        .form-group input::placeholder { color: #444; }
+        .form-group input[readonly] {
+            color: #cc0000;
+            font-weight: 700;
+            cursor: default;
+        }
+        .form-group .input-group .fa-chevron-down {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+        }
+
+        /* Device Group */
+        .device-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .device-group .device {
+            padding: 8px 4px;
+            background: rgba(255,255,255,0.02);
+            border: 2px solid rgba(255,255,255,0.04);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            color: #888;
+            font-weight: 600;
+            font-size: 10px;
+            user-select: none;
+        }
+        .device-group .device i {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+        .device-group .device:hover {
+            border-color: rgba(204,0,0,0.2);
+            background: rgba(204,0,0,0.04);
+        }
+        .device-group .device.selected {
+            border-color: #cc0000;
+            background: rgba(204,0,0,0.08);
+            color: #ff0000;
+            box-shadow: 0 0 25px rgba(204,0,0,0.06);
+        }
+        .device-group .device.selected i { transform: scale(1.05); }
+        .device-group .device .check-mark {
+            display: none;
+            font-size: 9px;
+            margin-top: 1px;
+            color: #cc0000;
+        }
+        .device-group .device.selected .check-mark { display: block; }
+        .device-info {
+            margin-top: 4px;
+            font-size: 9px;
+            color: #666;
+        }
+        .device-info span {
+            color: #ff0000;
+            font-weight: 600;
+        }
+
+        /* Button Register */
+        .btn-register {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #cc0000, #990000);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 4px;
+            letter-spacing: 1px;
             position: relative;
             overflow: hidden;
         }
-
-        .btn-daftar::before {
+        .btn-register::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff3333, transparent, #ff3333, transparent);
-            background-size: 400% 400%;
-            border-radius: 60px;
-            z-index: -1;
-            opacity: 0;
-            transition: 0.5s ease;
+            top: 0;
+            left: -100%;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transition: left 0.6s ease;
         }
-
-        .btn-daftar:hover::before {
-            opacity: 0.3;
-            animation: borderGlow 3s ease infinite;
+        .btn-register:hover::before { left: 100%; }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px rgba(204,0,0,0.25);
+            background: linear-gradient(135deg, #ff0000, #cc0000);
         }
+        .btn-register:active { transform: translateY(0); }
+        .btn-register i { margin-right: 6px; }
 
-        @keyframes borderGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .btn-daftar:hover {
-            background: rgba(255, 40, 40, 0.22);
-            border-color: rgba(255, 50, 50, 0.45);
-            box-shadow: 0 0 80px rgba(200, 20, 20, 0.12), 0 0 150px rgba(200, 20, 20, 0.04);
-            transform: scale(1.04) translateY(-2px);
-        }
-
-        .btn-daftar:active {
-            transform: scale(0.96);
-        }
-
-        /* ============================================
-           FORM
-           ============================================ */
-        .form-section {
+        /* Message */
+        .message {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
             display: none;
-            animation: fadeIn 0.6s ease;
-            margin-top: 5px;
+            animation: fadeSlide 0.4s ease;
         }
-
-        .form-section.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .message.success {
+            display: block;
+            background: rgba(0,255,100,0.05);
+            border: 1px solid rgba(0,255,100,0.1);
+            color: #00ff64;
+        }
+        .message.error {
+            display: block;
+            background: rgba(255,0,0,0.05);
+            border: 1px solid rgba(255,0,0,0.1);
+            color: #ff4444;
+        }
 
-        .form-section .back-link {
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            color: #444;
+            font-size: 10px;
+        }
+        .footer a {
+            color: #cc0000;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover { color: #ff0000; }
+        .footer .heart {
+            color: #ff0000;
             display: inline-block;
-            color: rgba(255, 50, 50, 0.30);
-            font-size: 14px;
-            cursor: pointer;
-            margin-bottom: 22px;
-            transition: 0.3s ease;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Rules Modal */
+        .rules-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .rules-modal-overlay.show { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .rules-modal {
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            background: linear-gradient(160deg, rgba(20,6,6,0.98), rgba(10,3,3,0.99));
+            border: 1px solid rgba(204,0,0,0.15);
+            border-radius: 28px;
+            padding: 30px 25px 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(204,0,0,0.05);
+            animation: slideUp 0.4s ease;
+            overflow-y: auto;
+        }
+        .rules-modal::-webkit-scrollbar { width: 4px; }
+        .rules-modal::-webkit-scrollbar-track { background: transparent; }
+        .rules-modal::-webkit-scrollbar-thumb { background: rgba(204,0,0,0.2); border-radius: 10px; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .rules-modal .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(204,0,0,0.06);
+            margin-bottom: 16px;
+        }
+        .rules-modal .modal-header .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: #ff4444;
             letter-spacing: 1px;
-            font-weight: 400;
-            font-family: 'Rajdhani', sans-serif;
         }
-
-        .form-section .back-link:hover {
-            color: rgba(255, 50, 50, 0.60);
-            transform: translateX(-4px);
+        .rules-modal .modal-header .modal-title i { margin-right: 8px; }
+        .rules-modal .modal-header .btn-close-modal {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            color: #888;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .form-group {
+        .rules-modal .modal-header .btn-close-modal:hover {
+            border-color: rgba(204,0,0,0.2);
+            color: #ff4444;
+            background: rgba(204,0,0,0.05);
+        }
+        .rules-modal .modal-rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             margin-bottom: 20px;
         }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: rgba(255, 80, 80, 0.40);
-            margin-bottom: 6px;
+        .rules-modal .modal-rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s ease;
+        }
+        .rules-modal .modal-rule-item:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(204,0,0,0.08);
+        }
+        .rules-modal .modal-rule-item .rule-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #cc0000;
+            min-width: 28px;
+            flex-shrink: 0;
+        }
+        .rules-modal .modal-rule-item .rule-icon {
+            font-size: 14px;
+            color: #cc0000;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .rules-modal .modal-rule-item .rule-text {
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+        .rules-modal .modal-rule-item .rule-text strong { color: #fff; }
+        .rules-modal .modal-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .rules-modal .modal-footer .btn-agree {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #cc0000, #990000);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
             font-size: 13px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 1px solid rgba(255, 30, 30, 0.08);
-            border-radius: 16px;
-            font-size: 16px;
-            transition: 0.35s ease;
-            background: rgba(255, 255, 255, 0.02);
-            color: #ffcccc;
-            outline: none;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 400;
-        }
-
-        input:focus {
-            border-color: rgba(255, 40, 40, 0.30);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 40px rgba(200, 20, 20, 0.06), inset 0 0 40px rgba(200, 20, 20, 0.02);
-            transform: scale(1.01);
-        }
-
-        input::placeholder {
-            color: rgba(255, 80, 80, 0.10);
-            font-weight: 300;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(255, 40, 40, 0.14), rgba(200, 10, 10, 0.08));
-            color: #ff6666;
-            border: 1px solid rgba(255, 40, 40, 0.18);
-            border-radius: 16px;
-            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.4s ease;
-            margin-top: 6px;
-            letter-spacing: 1.5px;
-            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s ease;
         }
-
-        button[type="submit"]:hover {
-            background: rgba(255, 40, 40, 0.22);
-            border-color: rgba(255, 40, 40, 0.35);
-            box-shadow: 0 0 60px rgba(200, 20, 20, 0.08);
-            transform: scale(1.01);
+        .rules-modal .modal-footer .btn-agree:hover {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(204,0,0,0.2);
         }
-
-        button[type="submit"]:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* ============================================
-           STATUS MESSAGE
-           ============================================ */
-        #statusMessage {
-            margin-top: 18px;
-            padding: 14px 20px;
-            border-radius: 14px;
-            text-align: center;
+        .rules-modal .modal-footer .btn-agree i { margin-right: 6px; }
+        .rules-modal .modal-footer .btn-decline {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            color: #888;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
             font-weight: 600;
-            display: none;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        #statusMessage.success {
-            display: block;
-            background: rgba(50, 200, 100, 0.06);
-            color: rgba(50, 200, 100, 0.6);
-            border: 1px solid rgba(50, 200, 100, 0.08);
-        }
-
-        #statusMessage.error {
-            display: block;
-            background: rgba(255, 30, 30, 0.06);
-            color: rgba(255, 60, 60, 0.6);
-            border: 1px solid rgba(255, 30, 30, 0.08);
-        }
-
-        #statusMessage.loading {
-            display: block;
-            background: rgba(255, 30, 30, 0.06);
-            color: rgba(255, 50, 50, 0.5);
-            border: 1px solid rgba(255, 30, 30, 0.08);
-        }
-
-        /* ============================================
-           DETAIL BOX
-           ============================================ */
-        .detail-box {
-            background: rgba(255, 255, 255, 0.015);
-            border-radius: 16px;
-            padding: 20px 24px;
-            border-left: 3px solid rgba(255, 40, 40, 0.15);
-            margin-top: 24px;
-            transition: 0.3s ease;
-        }
-
-        .detail-box:hover {
-            border-left-color: rgba(255, 40, 40, 0.30);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .detail-box h4 {
-            color: rgba(255, 80, 80, 0.30);
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .detail-box .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 7px 0;
-            border-bottom: 1px solid rgba(255, 30, 30, 0.03);
-        }
-
-        .detail-box .row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-box .label {
-            color: rgba(255, 80, 80, 0.20);
-            font-size: 14px;
-            font-weight: 400;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .detail-box .value {
-            color: rgba(255, 80, 80, 0.55);
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .detail-box .empty {
-            color: rgba(255, 80, 80, 0.10);
-            font-style: italic;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 14px;
-            font-weight: 300;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .btn-clear {
-            margin-top: 14px;
-            padding: 10px 24px;
-            background: rgba(255, 30, 30, 0.04);
-            border: 1px solid rgba(255, 30, 30, 0.06);
-            border-radius: 40px;
-            color: rgba(255, 60, 60, 0.30);
-            font-size: 12px;
             cursor: pointer;
-            transition: 0.3s ease;
-            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .rules-modal .modal-footer .btn-decline:hover {
+            background: rgba(255,0,0,0.05);
+            border-color: rgba(255,0,0,0.1);
+            color: #ff4444;
+        }
+
+        /* ===== DISCORD FLOAT BUTTON ===== */
+        .discord-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #fff;
+            box-shadow: 0 4px 25px rgba(88, 101, 242, 0.2);
+            text-decoration: none;
+            z-index: 100;
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease 2.5s both;
+        }
+        .discord-float:hover {
+            transform: scale(1.08) rotate(-5deg);
+            box-shadow: 0 8px 40px rgba(88, 101, 242, 0.35);
+            background: linear-gradient(135deg, #6B77F5, #5865F2);
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+            width: 100%;
+        }
+        .toast {
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
             font-weight: 500;
-            font-family: 'Rajdhani', sans-serif;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 4.5s forwards;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast i { font-size: 18px; }
+        .toast.success { background: rgba(0,255,100,0.12); border-color: rgba(0,255,100,0.15); }
+        .toast.error { background: rgba(255,0,0,0.12); border-color: rgba(255,0,0,0.15); }
+        .toast.info { background: rgba(88,101,242,0.12); border-color: rgba(88,101,242,0.15); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(50px); }
         }
 
-        .btn-clear:hover {
-            background: rgba(255, 30, 30, 0.08);
-            border-color: rgba(255, 30, 30, 0.12);
-            color: rgba(255, 60, 60, 0.50);
+        /* Responsive */
+        @media (max-width: 520px) {
+            .main-card { padding: 20px 14px 16px; border-radius: 24px; }
+            .header .logo .icon { font-size: 32px; }
+            .header .logo .name { font-size: 16px; letter-spacing: 1px; }
+            .header .logo .name .sub { font-size: 7px; letter-spacing: 2px; }
+            .stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .stat-box .num { font-size: 20px; }
+            .stat-box .lbl { font-size: 8px; }
+            .features { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .feature-box i { font-size: 16px; }
+            .feature-box h4 { font-size: 8px; }
+            .clan-banner { padding: 8px 12px; flex-direction: column; align-items: stretch; gap: 4px; }
+            .clan-banner .status-right { justify-content: space-between; }
+            .rules-status { flex-direction: column; align-items: stretch; gap: 6px; }
+            .rules-status .rules-info { justify-content: center; }
+            .btn-view-rules { width: 100%; text-align: center; padding: 6px; }
+            .form-section .form-title h3 { font-size: 16px; }
+            .device-group { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+            .device-group .device { font-size: 9px; padding: 6px 2px; }
+            .device-group .device i { font-size: 14px; }
+            .rules-modal { padding: 20px 16px; border-radius: 20px; }
+            .rules-modal .modal-header .modal-title { font-size: 15px; }
+            .rules-modal .modal-rule-item { padding: 8px 10px; }
+            .rules-modal .modal-rule-item .rule-text { font-size: 11px; }
+            .rules-modal .modal-footer { flex-direction: column; }
+            .discord-float { width: 44px; height: 44px; font-size: 22px; bottom: 16px; right: 16px; }
+            .loading-screen .loader { width: 60px; height: 60px; }
+            .loading-screen .loader .ring:nth-child(2) { width: 45px; height: 45px; top: 7.5px; left: 7.5px; }
+            .loading-screen .loader .ring:nth-child(3) { width: 30px; height: 30px; top: 15px; left: 15px; }
+            .loading-screen .loader-text { font-size: 13px; }
+            .toast-container { max-width: 90%; right: 10px; top: 10px; }
         }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 500px) {
-            .container { padding: 28px 18px; }
-            .header h1 { font-size: 40px; letter-spacing: 3px; }
-            .header .welcome { font-size: 10px; letter-spacing: 6px; }
-            .btn-daftar { padding: 14px 30px; font-size: 15px; }
-            input { padding: 13px 16px; font-size: 15px; }
-            button[type="submit"] { font-size: 15px; padding: 14px; }
-            .home-content .desc { font-size: 14px; }
-            .detail-box { padding: 16px 18px; }
-        }
-
-        @media (max-width: 400px) {
-            .container { padding: 20px 14px; }
-            .header h1 { font-size: 32px; }
-            .btn-daftar { padding: 12px 24px; font-size: 13px; letter-spacing: 1px; }
+        @media (max-width: 380px) {
+            .main-card { padding: 14px 10px 12px; }
+            .header .logo .name { font-size: 13px; }
+            .stat-box .num { font-size: 16px; }
+            .form-group input, .form-group select { font-size: 11px; padding: 8px 10px 8px 32px; }
         }
     </style>
-
 </head>
 <body>
 
-<div class="container">
-
-    <!-- ==========================================
-    HEADER: WELCOME TO GRS
-    ========================================== -->
-    <div class="header">
-        <div class="welcome">Welcome To</div>
-        <h1>GRS</h1>
-        <div class="sub"> GRS &amp; registration ✦/div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        <div class="loader-text">LOADING<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
 
-    <!-- ==========================================
-    HOME PAGE
-    ========================================== -->
-    <div class="home-content" id="homeContent">
-        <div class="tagline"><span></span> </div>
-        <div class="desc">
-            <br />
-            
+    <!-- Background Particles -->
+    <canvas id="particlesCanvas"></canvas>
+    <div id="bgOverlay"></div>
+
+    <!-- Floating Particles CSS -->
+    <div class="floating-particles" id="floatingParticles"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Rules Modal -->
+    <div class="rules-modal-overlay" id="rulesModal">
+        <div class="rules-modal">
+            <div class="modal-header">
+                <span class="modal-title"><i class="fas fa-gavel"></i> Clan Rules</span>
+                <button class="btn-close-modal" onclick="closeRulesModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-rules-list" id="modalRulesList"></div>
+            <div class="modal-footer">
+                <button class="btn-agree" onclick="agreeRules()"><i class="fas fa-check"></i> I Agree</button>
+                <button class="btn-decline" onclick="closeRulesModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="main-card">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="icon">💀</span>
+                <span class="name">
+                    GRIM REAPERS MY
+                    <span class="sub">⚔️ ELITE CLAN ⚔️</span>
+                </span>
+            </div>
+            <div class="tagline" id="tagline">
+                <i class="fas fa-fire"></i> <span id="taglineText">OFFICIAL CLAN ON 2026</span><span class="typing-cursor"></span>
+            </div>
         </div>
 
-        <button class="btn-daftar" id="btnDaftar">📝 Daftar Sekarang</button>
-
-        <!-- ==========================================
-        DETAIL BOX (PAPAR DATA TERDAFTAR)
-        ========================================== -->
-        <div class="detail-box" id="detailBox">
-            <h4>📊 DATA TERDAFTAR</h4>
-            <div id="detailContent">
-                <div class="empty">❌ Tiada data. Daftar dulu!</div>
+        <!-- Clan Banner -->
+        <div class="clan-banner">
+            <div class="status-left">
+                <span class="pulse-dot"></span>
+                <span class="status-text">⚔️ <span>WAR MODE</span> — Active</span>
             </div>
-            <button class="btn-clear" id="clearDataBtn">🗑️ Kosongkan Data</button>
+            <div class="status-right">
+                <span>🟢 <span class="online-count" id="onlineCount">25</span> online</span>
+                <span>👥 <span class="total-count" id="totalMembersDisplay">40</span> members</span>
+            </div>
         </div>
+
+        <!-- Rules Status -->
+        <div class="rules-status">
+            <div class="rules-info">
+                <i class="fas fa-gavel"></i>
+                <span>Rules:</span>
+                <span class="status-badge" id="rulesStatusBadge">⚠️ Pending</span>
+            </div>
+            <button class="btn-view-rules" onclick="openRulesModal()">
+                <i class="fas fa-eye"></i> View Rules
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-box">
+                <span class="num" id="totalMembers">40</span>
+                <span class="lbl">Resgiteration Member</span>
+            </div>
+            <div class="stat-box">
+                <span class="num" id="onlineMembers">25</span>
+                <span class="lbl">Online Now</span>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-box"><i class="fas fa-trophy"></i><h4>Competitive</h4><p>Best fighters</p></div>
+            <div class="feature-box"><i class="fas fa-users"></i><h4>Community</h4><p>40 active</p></div>
+            <div class="feature-box"><i class="fas fa-shield-alt"></i><h4>Protected</h4><p>Safe & secure</p></div>
+            <div class="feature-box"><i class="fas fa-rocket"></i><h4>Growth</h4><p>Level up</p></div>
+        </div>
+
+        <!-- ===== SHARE SECTION - HANYA DISCORD ===== -->
+        <div class="share-section">
+            <button class="share-btn discord" onclick="joinDiscord()">
+                <i class="fab fa-discord"></i> Join Discord Server
+            </button>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-section">
+            <div class="form-title">
+                <span class="badge"><i class="fas fa-pen"></i> Registration</span>
+                <h3>Join <span>GRIM REAPERS</span></h3>
+                <p>Fill in your details to become a member</p>
+            </div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Clan Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-users"></i>
+                        <input type="text" id="clanName" value="GRIM REAPERS MY" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Clan Tag</label>
+                    <div class="input-group">
+                        <i class="fas fa-tag"></i>
+                        <input type="text" id="clanTag" value="GRS" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user-circle"></i>
+                        <input type="text" id="fullName" placeholder="e.g. Ahmad Bin Ali" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-cake-candles"></i> Age</label>
+                    <div class="input-group">
+                        <i class="fas fa-calendar"></i>
+                        <input type="number" id="userAge" placeholder="e.g. 25" min="13" max="99" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <div class="input-group">
+                        <i class="fas fa-phone-alt"></i>
+                        <input type="tel" id="phoneNumber" placeholder="e.g. 60123456789" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-devices"></i> Device Type <span style="color:#666; font-weight:400; font-size:9px;">(click to select multiple)</span></label>
+                    <div class="device-group" id="deviceGroup">
+                        <div class="device" data-value="android"><i class="fab fa-android"></i> Android <span class="check-mark">✅</span></div>
+                        <div class="device" data-value="ios"><i class="fab fa-apple"></i> iOS <span class="check-mark">✅</span></div>
+                        <div class="device" data-value="pc"><i class="fas fa-desktop"></i> PC <span class="check-mark">✅</span></div>
+                    </div>
+                    <input type="hidden" id="deviceTypeValue" value="">
+                    <div class="device-info">
+                        <i class="fas fa-info-circle"></i> Selected: <span id="selectedDevicesDisplay">None</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-flag"></i> Clan Type</label>
+                    <div class="input-group">
+                        <i class="fas fa-shield-alt"></i>
+                        <select id="clanType" required>
+                            <option value="">Select Clan Type</option>
+                            <option value="competitive">⚔️ Competitive</option>
+                            <option value="fun">🎉 Fun</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fab fa-whatsapp"></i> Register & Send to WhatsApp
+                </button>
+
+                <div id="message" class="message"></div>
+
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            💀 <a href="#">GRIM REAPERS MY</a> &copy; 2024 | Made with <span class="heart"><i class="fas fa-heart"></i></span>
+        </div>
+
     </div>
 
-    <!-- ==========================================
-    FORM SECTION (HIDDEN BY DEFAULT)
-    ========================================== -->
-    <div class="form-section" id="formSection">
+    <!-- ===== DISCORD FLOAT BUTTON ===== -->
+    <a href="#" class="discord-float" id="discordFloat" title="Join Discord">
+        <i class="fab fa-discord"></i>
+    </a>
 
-        <span class="back-link" id="backHome">← Kembali ke Home</span>
-
-        <form id="daftarForm">
-            <div class="form-group">
-                <label for="nama">👤 Nama Lengkap</label>
-                <input type="text" id="nama" placeholder="Masukkan nama kamu" required />
-            </div>
-
-            <div class="form-group">
-                <label for="umur">🎂 Umur</label>
-                <input type="number" id="umur" placeholder="Masukkan umur kamu" required />
-            </div>
-
-            <div class="form-group">
-                <label for="nomor">📱 Nomor Telefon</label>
-                <input type="tel" id="nomor" placeholder="Contoh: 601164588856" required />
-            </div>
-
-            <button type="submit" id="submitBtn">📤 Kirim ke WhatsApp</button>
-        </form>
-
-        <div id="statusMessage"></div>
-    </div>
-
-</div>
-
-<!-- ============================================
-JAVASCRIPT
-============================================ -->
-<script>
-    // ============================================
-    // TARGET NOMOR WHATSAPP - DAH SET!
-    // ============================================
-    const TARGET_NOMOR = '601164588856';
-
-    // ============================================
-    // ELEMEN
-    // ============================================
-    const homeContent = document.getElementById('homeContent');
-    const formSection = document.getElementById('formSection');
-    const btnDaftar = document.getElementById('btnDaftar');
-    const backHome = document.getElementById('backHome');
-
-    const form = document.getElementById('daftarForm');
-    const namaInput = document.getElementById('nama');
-    const umurInput = document.getElementById('umur');
-    const nomorInput = document.getElementById('nomor');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusMsg = document.getElementById('statusMessage');
-    const detailContent = document.getElementById('detailContent');
-    const clearBtn = document.getElementById('clearDataBtn');
-
-    // ============================================
-    // TOGGLE HOME / FORM
-    // ============================================
-    function showHome() {
-        homeContent.style.display = 'block';
-        formSection.classList.remove('show');
-        formSection.style.display = 'none';
-    }
-
-    function showForm() {
-        homeContent.style.display = 'none';
-        formSection.style.display = 'block';
-        setTimeout(() => formSection.classList.add('show'), 50);
-    }
-
-    btnDaftar.addEventListener('click', showForm);
-    backHome.addEventListener('click', showHome);
-
-    // ============================================
-    // SIMPAN & LOAD DATA DARI LOCALSTORAGE
-    // ============================================
-    function saveData(data) {
-        localStorage.setItem('grsPlayerData', JSON.stringify(data));
-    }
-
-    function loadData() {
-        const raw = localStorage.getItem('grsPlayerData');
-        if (raw) {
-            try { return JSON.parse(raw); } catch (e) { return null; }
-        }
-        return null;
-    }
-
-    // ============================================
-    // RENDER DETAIL
-    // ============================================
-    function renderDetail() {
-        const data = loadData();
-        if (!data || !data.nama) {
-            detailContent.innerHTML = `<div class="empty">❌ Tiada data. Daftar dulu!</div>`;
-            return;
-        }
-        detailContent.innerHTML = `
-            <div class="row">
-                <span class="label">👤 Nama</span>
-                <span class="value">${data.nama}</span>
-            </div>
-            <div class="row">
-                <span class="label">🎂 Umur</span>
-                <span class="value">${data.umur} tahun</span>
-            </div>
-            <div class="row">
-                <span class="label">📱 Nomor</span>
-                <span class="value">${data.nomor}</span>
-            </div>
-            <div class="row">
-                <span class="label">📅 Daftar</span>
-                <span class="value">${data.tarikh || '—'}</span>
-            </div>
-        `;
-    }
-
-    // ============================================
-    // SHOW STATUS
-    // ============================================
-    function showStatus(msg, type = 'success') {
-        statusMsg.textContent = msg;
-        statusMsg.className = type;
-    }
-    function hideStatus() {
-        statusMsg.className = '';
-        statusMsg.textContent = '';
-    }
-
-    // ============================================
-    // VALIDASI
-    // ============================================
-    function validateForm() {
-        const nama = namaInput.value.trim();
-        const umur = umurInput.value.trim();
-        const nomor = nomorInput.value.trim();
-
-        if (!nama) { showStatus('❌ Nama tidak boleh kosong!', 'error'); return false; }
-        if (!umur || isNaN(umur) || parseInt(umur) < 1 || parseInt(umur) > 120) {
-            showStatus('❌ Masukkan umur yang valid (1-120)!', 'error');
-            return false;
-        }
-        if (!nomor || nomor.length < 8) {
-            showStatus('❌ Masukkan nomor telefon yang valid!', 'error');
-            return false;
-        }
-        return true;
-    }
-
-    // ============================================
-    // SEND TO WHATSAPP - FIXED!
-    // ============================================
-    function sendToWhatsApp(nama, umur, nomor) {
-        let target = TARGET_NOMOR;
-        if (!target.startsWith('+')) {
-            target = '+' + target;
-        }
-
-        const msg =
-            `📋 *Daftar Player Baru*\n\n` +
-            `👤 Nama: ${nama}\n` +
-            `🎂 Umur: ${umur}\n` +
-            `📱 Nomor: ${nomor}\n\n` +
-            `✅ Pendaftaran berhasil!`;
-
-        const waUrl = `https://api.whatsapp.com/send?phone=${target}&text=${encodeURIComponent(msg)}`;
-        
-        const newWindow = window.open(waUrl, '_blank');
-        
-        if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-            alert('⚠️ Sila benarkan pop-up untuk buka WhatsApp.\nAtau klik link ini: ' + waUrl);
-            return false;
-        }
-        
-        return true;
-    }
-
-    // ============================================
-    // EVENT SUBMIT
-    // ============================================
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        hideStatus();
-        if (!validateForm()) return;
-
-        const nama = namaInput.value.trim();
-        const umur = umurInput.value.trim();
-        const nomor = nomorInput.value.trim();
-
-        saveData({
-            nama, umur, nomor,
-            tarikh: new Date().toLocaleDateString('id-ID', {
-                day: 'numeric', month: 'long', year: 'numeric'
-            })
+    <script>
+        // ─── LOADING ──────────────────────────────────────
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('hide');
+            }, 2500);
         });
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '⏳ Mengirim...';
-        showStatus('⏳ Sedang mengarahkan ke WhatsApp...', 'loading');
+        // ─── DISCORD LINK ──────────────────────────────
+        // Tukar link Discord di sini
+        const DISCORD_INVITE = 'https://discord.gg/ZPvaBhW8W';
 
-        try {
-            const success = sendToWhatsApp(nama, umur, nomor);
-            if (success) {
-                showStatus('✅ Berhasil! Sila lengkapkan di WhatsApp.', 'success');
-                renderDetail();
-                setTimeout(() => {
-                    form.reset();
-                    hideStatus();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '📤 Kirim ke WhatsApp';
-                    showHome();
-                }, 3000);
+        function joinDiscord() {
+            window.open(DISCORD_INVITE, '_blank');
+            showToast('🎮 Joining Discord server...', 'info');
+        }
+
+        // Set link untuk float button juga
+        document.getElementById('discordFloat').href = DISCORD_INVITE;
+
+        // ─── BACKGROUND PARTICLES (Canvas) ──────────────
+        const canvas = document.getElementById('particlesCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
             }
-        } catch (error) {
-            showStatus('❌ Terjadi ralat. Sila cuba lagi.', 'error');
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '📤 Kirim ke WhatsApp';
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.color = this.getColor();
+            }
+            getColor() {
+                const colors = [
+                    `rgba(255, 0, 0, ${this.opacity})`,
+                    `rgba(204, 0, 0, ${this.opacity})`,
+                    `rgba(255, 68, 68, ${this.opacity})`,
+                    `rgba(150, 0, 0, ${this.opacity})`,
+                    `rgba(255, 100, 100, ${this.opacity})`
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > width) this.speedX *= -1;
+                if (this.y < 0 || this.y > height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                if (this.size > 2) {
+                    ctx.shadowColor = 'rgba(255,0,0,0.1)';
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
         }
-    });
 
-    // ============================================
-    // KOSONGKAN DATA
-    // ============================================
-    clearBtn.addEventListener('click', function() {
-        if (confirm('Yakin nak kosongkan semua data?')) {
-            localStorage.removeItem('grsPlayerData');
-            renderDetail();
-            showStatus('✅ Data berjaya dikosongkan!', 'success');
-            setTimeout(hideStatus, 2000);
+        const particleCount = Math.min(80, Math.floor((width * height) / 15000));
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
         }
-    });
 
-    // ============================================
-    // AUTO FORMAT NOMOR
-    // ============================================
-    nomorInput.addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9+]/g, '');
-    });
+        function drawLines() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        const opacity = (1 - dist / 150) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(204, 0, 0, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
 
-    // ============================================
-    // BERSIHKAN STATUS SEMASA MENAIP
-    // ============================================
-    [namaInput, umurInput, nomorInput].forEach(input => {
-        input.addEventListener('input', function() {
-            if (statusMsg.className !== '') hideStatus();
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawLines();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ─── CSS FLOATING PARTICLES ──────────────────────
+        (function createFloatingParticles() {
+            const container = document.getElementById('floatingParticles');
+            const colors = ['#ff0000', '#cc0000', '#ff4444', '#990000', '#ff6666'];
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'float-particle';
+                const size = Math.random() * 8 + 2;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                p.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                p.style.boxShadow = `0 0 ${size * 2}px rgba(204,0,0,0.2)`;
+                container.appendChild(p);
+            }
+        })();
+
+        // ─── TYPING ANIMATION ──────────────────────────
+        const taglines = [
+            'Elite clans'
+        ];
+        let taglineIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const taglineElement = document.getElementById('taglineText');
+
+        function typeTagline() {
+            const currentText = taglines[taglineIndex];
+            if (!isDeleting) {
+                if (charIndex < currentText.length) {
+                    taglineElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(typeTagline, 80);
+                } else {
+                    isDeleting = true;
+                    setTimeout(typeTagline, 2500);
+                }
+            } else {
+                if (charIndex > 0) {
+                    taglineElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(typeTagline, 40);
+                } else {
+                    isDeleting = false;
+                    taglineIndex = (taglineIndex + 1) % taglines.length;
+                    setTimeout(typeTagline, 500);
+                }
+            }
+        }
+
+        // ─── TOAST NOTIFICATION ────────────────────────
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 5000);
+        }
+
+        // ─── DEFAULT RULES ──────────────────────────────
+        const DEFAULT_RULES = [
+            { icon: 'fa-shield-alt', text: 'Respect all clan members at all times. <strong>No toxicity.</strong>' },
+            { icon: 'fa-phone', text: 'Active on WhatsApp and respond to clan messages.' },
+            { icon: 'fa-trophy', text: 'Participate in clan wars and events regularly.' },
+            { icon: 'fa-user-check', text: 'Must have at least <strong>one active device</strong> (Android/iOS/PC).' },
+            { icon: 'fa-clock', text: 'Inform leader if you will be <strong>inactive</strong> for more than 3 days.' },
+            { icon: 'fa-users', text: 'Help recruit new members to grow the clan.' },
+            { icon: 'fa-gamepad', text: 'Follow the clan strategy during wars and matches.' },
+            { icon: 'fa-ban', text: 'No cheating, hacking, or any unfair play.' },
+            { icon: 'fa-handshake', text: 'Support and guide fellow clan members.' },
+            { icon: 'fa-heart', text: 'Have fun and enjoy the clan community!' }
+        ];
+
+        function getRules() {
+            try {
+                const stored = localStorage.getItem('grim_reapers_rules');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.length > 0) return parsed;
+                }
+            } catch {}
+            return DEFAULT_RULES;
+        }
+
+        let rulesAgreed = false;
+
+        function getRulesAgreed() {
+            try {
+                return localStorage.getItem('grim_reapers_rules_agreed') === 'true';
+            } catch {
+                return false;
+            }
+        }
+
+        function setRulesAgreed(status) {
+            localStorage.setItem('grim_reapers_rules_agreed', status);
+            rulesAgreed = status;
+            updateRulesStatus();
+        }
+
+        function updateRulesStatus() {
+            const badge = document.getElementById('rulesStatusBadge');
+            if (rulesAgreed) {
+                badge.textContent = '✅ Agreed';
+                badge.className = 'status-badge agreed';
+            } else {
+                badge.textContent = 'Online ✅';
+                badge.className = 'status-badge pending';
+            }
+        }
+
+        function openRulesModal() {
+            const modal = document.getElementById('rulesModal');
+            const list = document.getElementById('modalRulesList');
+            const rules = getRules();
+            list.innerHTML = '';
+            rules.forEach((rule, index) => {
+                const item = document.createElement('div');
+                item.className = 'modal-rule-item';
+                item.innerHTML = `
+                    <span class="rule-num">#${index + 1}</span>
+                    <span class="rule-icon"><i class="fas ${rule.icon || 'fa-circle'}"></i></span>
+                    <span class="rule-text">${rule.text}</span>
+                `;
+                list.appendChild(item);
+            });
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRulesModal() {
+            document.getElementById('rulesModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function agreeRules() {
+            setRulesAgreed(true);
+            closeRulesModal();
+            showToast('✅ You have agreed to the clan rules!', 'success');
+        }
+
+        // ─── DEVICE TYPE ─────────────────────────────────
+        const selectedDevices = [];
+        document.querySelectorAll('.device').forEach(el => {
+            el.addEventListener('click', function() {
+                const value = this.dataset.value;
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    const index = selectedDevices.indexOf(value);
+                    if (index > -1) selectedDevices.splice(index, 1);
+                } else {
+                    this.classList.add('selected');
+                    selectedDevices.push(value);
+                }
+                document.getElementById('deviceTypeValue').value = selectedDevices.join(',');
+                const display = document.getElementById('selectedDevicesDisplay');
+                if (selectedDevices.length === 0) {
+                    display.textContent = 'None';
+                    display.style.color = '#888';
+                } else {
+                    display.textContent = selectedDevices.join(' + ').toUpperCase();
+                    display.style.color = '#ff0000';
+                }
+            });
         });
-    });
 
-    // ============================================
-    // RENDER DETAIL AWAL
-    // ============================================
-    renderDetail();
+        // ─── AUTO-DETECT DEVICE ────────────────────────
+        function detectAndSelectDevice() {
+            const ua = navigator.userAgent.toLowerCase();
+            let detected = null;
+            if (/android/.test(ua)) detected = 'android';
+            else if (/iphone|ipad|ipod/.test(ua)) detected = 'ios';
+            else if (/windows|mac|linux/.test(ua)) detected = 'pc';
 
-    console.log('✅ GRS Portfolio siap! 🚀');
-    console.log('📱 Target WhatsApp: ' + TARGET_NOMOR);
-</script>
+            if (detected) {
+                document.querySelectorAll('.device').forEach(el => {
+                    if (el.dataset.value === detected) {
+                        el.click();
+                    }
+                });
+                showToast(`📱 Device detected: ${detected.toUpperCase()}`, 'info');
+            }
+        }
+
+        // ─── SHOW MESSAGE ──────────────────────────────
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 5000);
+        }
+
+        // ─── GET MEMBERS ────────────────────────────────
+        function getMembers() {
+            try {
+                return JSON.parse(localStorage.getItem('grim_reapers_members')) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        // ─── UPDATE STATS ──────────────────────────────
+        function updateStats() {
+            const members = getMembers();
+            const total = members.length || 40;
+            const online = Math.floor(total * 0.6) || 24;
+            document.getElementById('totalMembers').textContent = total;
+            document.getElementById('onlineMembers').textContent = online;
+            document.getElementById('onlineCount').textContent = online;
+            document.getElementById('totalMembersDisplay').textContent = total;
+        }
+
+        // ─── SAVE DATA ──────────────────────────────────
+        function saveMember(data) {
+            let members = getMembers();
+
+            if (members.find(m => m.phone === data.phone)) {
+                showToast('❌ Phone number already registered!', 'error');
+                return false;
+            }
+
+            if (!rulesAgreed) {
+                showToast('❌ Please view and agree to the clan rules first!', 'error');
+                return false;
+            }
+
+            const newMember = {
+                id: Date.now().toString(),
+                ...data,
+                fullName: data.fullName || 'Unknown',
+                age: data.age || 0,
+                agreedToRules: true,
+                joinedAt: new Date().toISOString(),
+                status: 'active'
+            };
+
+            members.push(newMember);
+            localStorage.setItem('grim_reapers_members', JSON.stringify(members));
+            updateStats();
+            return newMember;
+        }
+
+        // ─── SEND TO WHATSAPP ──────────────────────────
+        function sendToWhatsApp(data) {
+            const deviceText = data.devices.length > 0 ? data.devices.join(' + ').toUpperCase() : 'Not specified';
+
+            const msg = `💀 *NEW RECRUIT!* 💀
+
+━━━━━━━━━━━━━━━━━━━━━
+⚔️ *GRIM REAPERS MY* ⚔️
+━━━━━━━━━━━━━━━━━━━━━
+
+📌 *Clan:* ${data.clanName}
+🏷️ *Tag:* ${data.clanTag}
+👤 *Name:* ${data.fullName || 'Not provided'}
+🎂 *Age:* ${data.age || 'Not provided'}
+📱 *Phone:* ${data.phone}
+📲 *Device Type:* ${deviceText}
+🎮 *Clan Type:* ${data.clanType}
+📜 *Rules:* ✅ Agreed
+🕐 *Joined:* ${new Date().toLocaleString()}
+
+━━━━━━━━━━━━━━━━━━━━━
+👤 *Recruited via:* Website
+💪 *Status:* Active
+
+━━━━━━━━━━━━━━━━━━━━━
+🔥 Welcome to the family!`;
+
+            const encoded = encodeURIComponent(msg);
+            const WA_NUMBER = '60172209570';
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+        }
+
+        // ─── HANDLE REGISTER ────────────────────────────
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const clanName = document.getElementById('clanName').value.trim();
+            const clanTag = document.getElementById('clanTag').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const age = parseInt(document.getElementById('userAge').value);
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const devicesRaw = document.getElementById('deviceTypeValue').value;
+            const devices = devicesRaw ? devicesRaw.split(',') : [];
+            const clanType = document.getElementById('clanType').value;
+
+            if (!rulesAgreed) {
+                showToast('❌ Please view and agree to the clan rules first!', 'error');
+                return;
+            }
+
+            if (!fullName || fullName.length < 3) {
+                showToast('❌ Please enter your full name!', 'error');
+                return;
+            }
+
+            if (!age || age < 13 || age > 99) {
+                showToast('❌ Please enter a valid age (13-99)!', 'error');
+                return;
+            }
+
+            if (phone.length < 8) {
+                showToast('❌ Please enter a valid phone number!', 'error');
+                return;
+            }
+
+            if (devices.length === 0) {
+                showToast('❌ Please select at least one device type!', 'error');
+                return;
+            }
+
+            if (!clanType) {
+                showToast('❌ Please select clan type!', 'error');
+                return;
+            }
+
+            const data = {
+                clanName,
+                clanTag,
+                fullName,
+                age,
+                phone,
+                devices,
+                clanType
+            };
+
+            const saved = saveMember(data);
+            if (!saved) return;
+
+            showToast('✅ Welcome to GRIM REAPERS MY! Opening WhatsApp...', 'success');
+            document.getElementById('fullName').value = '';
+            document.getElementById('userAge').value = '';
+            document.getElementById('phoneNumber').value = '';
+            document.getElementById('clanType').value = '';
+            document.querySelectorAll('.device').forEach(el => el.classList.remove('selected'));
+            selectedDevices.length = 0;
+            document.getElementById('deviceTypeValue').value = '';
+            document.getElementById('selectedDevicesDisplay').textContent = 'None';
+            document.getElementById('selectedDevicesDisplay').style.color = '#888';
+
+            setTimeout(() => { sendToWhatsApp(saved); }, 1000);
+        }
+
+        // ─── INIT ────────────────────────────────────────
+        rulesAgreed = getRulesAgreed();
+        updateRulesStatus();
+        updateStats();
+
+        setTimeout(typeTagline, 3000);
+        setTimeout(detectAndSelectDevice, 1500);
+    </script>
 
 </body>
 </html>
