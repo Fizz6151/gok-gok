@@ -271,11 +271,11 @@
             50% { opacity: 0; }
         }
 
-        /* Clan Banner */
+        /* Clan Banner - Buang Online Count */
         .clan-banner {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: 12px 16px;
             background: rgba(204,0,0,0.05);
             border: 1px solid rgba(204,0,0,0.08);
@@ -313,10 +313,6 @@
             gap: 12px;
             font-size: 11px;
             color: #888;
-        }
-        .clan-banner .status-right .online-count {
-            color: #00ff64;
-            font-weight: 700;
         }
         .clan-banner .status-right .total-count {
             color: #ff0000;
@@ -377,10 +373,10 @@
             box-shadow: 0 0 20px rgba(204,0,0,0.05);
         }
 
-        /* Stats */
+        /* Stats - HANYA Total Members (bertambah) */
         .stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 8px;
             margin-bottom: 16px;
         }
@@ -400,17 +396,17 @@
         }
         .stat-box .num {
             font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 900;
             color: #ff0000;
             display: block;
         }
         .stat-box .lbl {
-            font-size: 10px;
+            font-size: 11px;
             color: #888;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             margin-top: 2px;
         }
 
@@ -959,14 +955,13 @@
             .header .logo .icon { font-size: 32px; }
             .header .logo .name { font-size: 16px; letter-spacing: 1px; }
             .header .logo .name .sub { font-size: 7px; letter-spacing: 2px; }
-            .stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            .stat-box .num { font-size: 20px; }
-            .stat-box .lbl { font-size: 8px; }
+            .stats { grid-template-columns: 1fr; gap: 6px; }
+            .stat-box .num { font-size: 24px; }
+            .stat-box .lbl { font-size: 9px; }
             .features { grid-template-columns: repeat(2, 1fr); gap: 6px; }
             .feature-box i { font-size: 16px; }
             .feature-box h4 { font-size: 8px; }
-            .clan-banner { padding: 8px 12px; flex-direction: column; align-items: stretch; gap: 4px; }
-            .clan-banner .status-right { justify-content: space-between; }
+            .clan-banner { padding: 8px 12px; flex-direction: column; align-items: center; gap: 4px; }
             .rules-status { flex-direction: column; align-items: stretch; gap: 6px; }
             .rules-status .rules-info { justify-content: center; }
             .btn-view-rules { width: 100%; text-align: center; padding: 6px; }
@@ -989,7 +984,7 @@
         @media (max-width: 380px) {
             .main-card { padding: 14px 10px 12px; }
             .header .logo .name { font-size: 13px; }
-            .stat-box .num { font-size: 16px; }
+            .stat-box .num { font-size: 20px; }
             .form-group input, .form-group select { font-size: 11px; padding: 8px 10px 8px 32px; }
         }
     </style>
@@ -1049,15 +1044,14 @@
             </div>
         </div>
 
-        <!-- Clan Banner -->
+        <!-- Clan Banner - Buang Online Count -->
         <div class="clan-banner">
             <div class="status-left">
                 <span class="pulse-dot"></span>
                 <span class="status-text">⚔️ <span>WAR MODE</span> — Active</span>
             </div>
             <div class="status-right">
-                <span>🟢 <span class="online-count" id="onlineCount">25</span> online</span>
-                <span>👥 <span class="total-count" id="totalMembersDisplay">40</span> members</span>
+                <span>👥 <span class="total-count" id="totalMembersDisplay">30</span> members</span>
             </div>
         </div>
 
@@ -1073,22 +1067,18 @@
             </button>
         </div>
 
-        <!-- Stats -->
+        <!-- Stats - HANYA Total Members (akan bertambah) -->
         <div class="stats">
             <div class="stat-box">
-                <span class="num" id="totalMembers">40</span>
-                <span class="lbl">Resgiteration Member</span>
-            </div>
-            <div class="stat-box">
-                <span class="num" id="onlineMembers">25</span>
-                <span class="lbl">Online Now</span>
+                <span class="num" id="totalMembers">30</span>
+                <span class="lbl">Total Members</span>
             </div>
         </div>
 
         <!-- Features -->
         <div class="features">
             <div class="feature-box"><i class="fas fa-trophy"></i><h4>Competitive</h4><p>Best fighters</p></div>
-            <div class="feature-box"><i class="fas fa-users"></i><h4>Community</h4><p>40 active</p></div>
+            <div class="feature-box"><i class="fas fa-users"></i><h4>Community</h4><p>Active members</p></div>
             <div class="feature-box"><i class="fas fa-shield-alt"></i><h4>Protected</h4><p>Safe & secure</p></div>
             <div class="feature-box"><i class="fas fa-rocket"></i><h4>Growth</h4><p>Level up</p></div>
         </div>
@@ -1206,7 +1196,6 @@
         });
 
         // ─── DISCORD LINK ──────────────────────────────
-        // Tukar link Discord di sini
         const DISCORD_INVITE = 'https://discord.gg/ZPvaBhW8W';
 
         function joinDiscord() {
@@ -1214,7 +1203,6 @@
             showToast('🎮 Joining Discord server...', 'info');
         }
 
-        // Set link untuk float button juga
         document.getElementById('discordFloat').href = DISCORD_INVITE;
 
         // ─── BACKGROUND PARTICLES (Canvas) ──────────────
@@ -1331,9 +1319,7 @@
         })();
 
         // ─── TYPING ANIMATION ──────────────────────────
-        const taglines = [
-            'Elite clans'
-        ];
+        const taglines = ['OFFICIAL CLAN ON 2026'];
         let taglineIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -1427,7 +1413,7 @@
                 badge.textContent = '✅ Agreed';
                 badge.className = 'status-badge agreed';
             } else {
-                badge.textContent = 'Online ✅';
+                badge.textContent = '⚠️ Pending';
                 badge.className = 'status-badge pending';
             }
         }
@@ -1523,14 +1509,11 @@
             }
         }
 
-        // ─── UPDATE STATS ──────────────────────────────
+        // ─── UPDATE STATS - Total Members akan bertambah ──
         function updateStats() {
             const members = getMembers();
-            const total = members.length || 40;
-            const online = Math.floor(total * 0.6) || 24;
+            const total = members.length || 30; // Start dengan 30
             document.getElementById('totalMembers').textContent = total;
-            document.getElementById('onlineMembers').textContent = online;
-            document.getElementById('onlineCount').textContent = online;
             document.getElementById('totalMembersDisplay').textContent = total;
         }
 
@@ -1560,7 +1543,7 @@
 
             members.push(newMember);
             localStorage.setItem('grim_reapers_members', JSON.stringify(members));
-            updateStats();
+            updateStats(); // Akan tambah nombor
             return newMember;
         }
 
@@ -1669,7 +1652,7 @@
         // ─── INIT ────────────────────────────────────────
         rulesAgreed = getRulesAgreed();
         updateRulesStatus();
-        updateStats();
+        updateStats(); // Start dengan 30
 
         setTimeout(typeTagline, 3000);
         setTimeout(detectAndSelectDevice, 1500);
